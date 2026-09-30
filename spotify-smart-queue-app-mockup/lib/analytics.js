@@ -1,3 +1,4 @@
+// CENTRALIZED TRACKING WRAPPER
 // Tracking call site - this is where a real SDK integration would
 // plug in. Everything else in the app calls track()/trackError() and never
 // needs to know whether that ends up in Mixpanel, GA4, both, or (as here)
