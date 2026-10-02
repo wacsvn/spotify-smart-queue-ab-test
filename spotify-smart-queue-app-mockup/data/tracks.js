@@ -5,7 +5,7 @@
 export const TRACKS = [
   { id: "t1", title: "Coconut Mall", artist: "Asuka Ohta", genre: "electronic", simulatedSeconds: 15, colors: ["#5B3EF5", "#241A5C"] },
   { id: "t2", title: "Secunda", artist: "Jeremy Soule", genre: "electronic", simulatedSeconds: 16, colors: ["#C97B3F", "#1A1140"] },
-  { id: "t3", title: "Ruins", artist: "Toby Fox", genre: "chill", simulatedSeconds: 20, colors: ["#2E9CB0", "#0E3A42"] },
+  { id: "t3", title: "Ruins", artist: "Toby Fox", genre: "chill", simulatedSeconds: 20, colors: ["#0E3320", "#0E3A42"] },
   { id: "t4", title: "Another Medium", artist: "Toby Fox", genre: "folk", simulatedSeconds: 17, colors: ["#2E9CB0", "#4A2A10"] },
   { id: "t5", title: "Sweden", artist: "C418", genre: "indie", simulatedSeconds: 18, colors: ["#1DB954", "#0E3320"] },
   { id: "t6", title: "Zelda's Lullaby", artist: "Koji Kondo", genre: "electronic", simulatedSeconds: 15, colors: ["#E23E57", "#4A0F1C"] },
@@ -19,8 +19,8 @@ export const TRACKS = [
   { id: "t14", title: "Ezio's Family", artist: "Jesper Kyd", genre: "folk", simulatedSeconds: 18, colors: ["#C97B3F", "#331E0B"] },
   { id: "t15", title: "Gerudo Valley", artist: "Koji Kondo", genre: "indie", simulatedSeconds: 16, colors: ["#1DB954", "#154227"] },
   { id: "t16", title: "The Path of the Wind", artist: "Joe Hisaishi", genre: "chill", simulatedSeconds: 20, colors: ["#2E9CB0", "#0D3138"] },
-  { id: "t17", title: "Hades", artist: "Darren Korb", genre: "electronic", simulatedSeconds: 17, colors: ["#5B3EF5", "#1D154A"] },
-  { id: "t18", title: "Nascence", artist: "Austin Wintory", genre: "folk", simulatedSeconds: 15, colors: ["#C97B3F", "#3D2510"] },
+  { id: "t17", title: "Hades", artist: "Darren Korb", genre: "electronic", simulatedSeconds: 17, colors: ["#C97B3F", "#1D154A"] }, 
+  { id: "t18", title: "Nascence", artist: "Austin Wintory", genre: "folk", simulatedSeconds: 15, colors: ["#5B3EF5", "#3D2510"] },
   { id: "t19", title: "Ori, Lost in the Storm", artist: "Gareth Coker", genre: "indie", simulatedSeconds: 19, colors: ["#1DB954", "#123B22"] },
   { id: "t20", title: "The Last of Us", artist: "Gustavo Santaolalla", genre: "chill", simulatedSeconds: 18, colors: ["#2E9CB0", "#123138"] },
 ];
@@ -29,7 +29,7 @@ export const TRACKS = [
 // of the catalog is left as a real pool for Smart Queue to recommend from.
 // (Preloading the whole catalog was the bug: nothing was ever left over to
 // suggest by the time the banner showed.)
-export const DEFAULT_QUEUE_ORDER = ["t1", "t2", "t3", "t4", "t5"];
+export const DEFAULT_QUEUE_ORDER = ["t1", "t2", "t3", "t4", "t5", "t6", "t7"];
 
 // Naive "recommender": 3 tracks sharing genre with the current track,
 // falling back to random catalog picks. Stands in for a real ML recommender.
