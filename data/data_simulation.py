@@ -86,5 +86,5 @@ print(
 )  # Daily to weekly mean check
 
 # 6. Save Data to Repo Pipeline Directory
-df_experiment_log.to_csv("data/synthetic_experiment_log.csv", index=False)
-print("Saved cleanly to data/synthetic_experiment_log.csv")
+df_experiment_log.to_csv("synthetic_experiment_log.csv", index=False)
+print("Saved cleanly to synthetic_experiment_log.csv")
