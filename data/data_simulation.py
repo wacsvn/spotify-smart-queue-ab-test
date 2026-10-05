@@ -79,12 +79,12 @@ for day in range(1, days_in_experiment + 1):
 df_experiment_log = pd.DataFrame(all_daily_records)
 
 # 5. Output Sanity Verification Checks
-print("--- Synthetic Dataset Generation Complete ---")
+print("--- Simulated Dataset Generation Complete ---")
 print(f"Total Rows Generated: {len(df_experiment_log):,}")
 print(
     df_experiment_log.groupby("variant")["total_minutes"].mean() / 7
 )  # Daily to weekly mean check
 
 # 6. Save Data to Repo Pipeline Directory
-df_experiment_log.to_csv("synthetic_experiment_log.csv", index=False)
-print("Saved cleanly to synthetic_experiment_log.csv")
+df_experiment_log.to_csv("simulated_experiment_log.csv", index=False)
+print("Saved cleanly to simulated_experiment_log.csv")
