@@ -41,43 +41,53 @@ compliant_indices = np.random.choice(
 df_users.loc[compliant_indices, "complier"] = 1
 
 
-# 4. Generate Daily Logged Stream Heartbeats Across Timeline
+# 4. Generate Daily Logged Stream Heartbeats Across Timeline (With Correct Retention Scaling)
 all_daily_records = []
+
+# Pre-calculate user-level retention flags to prevent trial repetition bias
+df_users["is_retained_w4"] = 1
+for idx, row in df_users.iterrows():
+    # Base baseline retention is 76% for Control users
+    retention_probability = 0.76
+
+    # In real analytics, we check if the treatment introduces retention drag
+    if row["variant"] == "treatment":
+        retention_probability = (
+            0.755  # Modeling a slight 0.5% neutral drag for guardrail verification
+        )
+
+    if np.random.rand() > retention_probability:
+        df_users.loc[idx, "is_retained_w4"] = 0
 
 for day in range(1, days_in_experiment + 1):
     for idx, row in df_users.iterrows():
+
+        # ELIMINATE CHURNED USER TRAFFIC FROM WEEK 4 LOGS:
+        # If a user is marked as un-retained, they stop logging activity from Day 21 onwards
+        if day >= 21 and df_users.loc[idx, "is_retained_w4"] == 0:
+            continue  # Drop their tracking rows for the remaining duration to simulate true cohort churn
+
         # Set historical default behaviors
-        base_search_minutes = np.random.negative_binomial(
-            n=10, p=0.03
-        )  # Raw volume proxy
-        base_autoplay_minutes = np.random.negative_binomial(
-            n=5, p=0.03
-        )  # Cannibalization target
+        base_search_minutes = np.random.negative_binomial(n=10, p=0.03)
+        base_autoplay_minutes = np.random.negative_binomial(n=5, p=0.03)
 
         # Inject the treatment effect using CACE parameters
         if row["variant"] == "treatment" and row["complier"] == 1:
-            # Compliers discover and love the feature:
-            smart_queue_minutes = np.random.poisson(lam=12)  # Use feature heavily
-            # Cannibalization check: Drop autoplay slightly due to active queueing
+            smart_queue_minutes = np.random.poisson(lam=12)
             base_autoplay_minutes = max(
                 0, base_autoplay_minutes - np.random.poisson(lam=3)
             )
-            # Primary OEC Gain: Total listening increases due to choice engagement
             base_search_minutes += np.random.poisson(lam=4)
         else:
             smart_queue_minutes = 0
 
-        # Calculate Total Composite Minutes per user-day
         total_daily_mins = (
             base_search_minutes + base_autoplay_minutes + smart_queue_minutes
         )
 
-        # Simulating random daily session errors (Guardrail check)
-        # Control & Treatment base error rate is 0.2%, but check for feature bugs
         error_rate = 0.002 if row["variant"] == "control" else 0.0025
         crashes_encountered = np.random.binomial(n=1, p=error_rate)
 
-        # Structure event-level metadata row
         all_daily_records.append(
             {
                 "user_id": row["user_id"],
@@ -89,8 +99,8 @@ for day in range(1, days_in_experiment + 1):
                 "smart_queue_minutes": smart_queue_minutes,
                 "total_minutes": total_daily_mins,
                 "crashes": crashes_encountered,
-                # Model retention active flag: binary presence signal for Week 4
-                "w4_active_day": 1 if (day >= 21 and np.random.rand() < 0.78) else 0,
+                # If they are present in Week 4, their active day flag is naturally 1
+                "w4_active_day": 1 if day >= 21 else 0,
             }
         )
 
